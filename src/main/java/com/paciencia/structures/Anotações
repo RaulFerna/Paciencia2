@@ -1,0 +1,2 @@
+Em linkedlist todo elemento armazenado é um nó, contendo uma referancia (ponteiro) para o próximo da sequência.
+Se for uma lsta duplamente ligada, deve ter também uma refência para o nó anterior

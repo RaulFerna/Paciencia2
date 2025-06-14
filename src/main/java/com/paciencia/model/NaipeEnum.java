@@ -2,7 +2,7 @@ package main.java.com.paciencia.model;
 
 public enum NaipeEnum {
     COPAS("Copas", Cor.VERMELHA),
-    PAUS("Paus" , Cor.PRETA),
+    PAUS("Paus", Cor.PRETA),
     ESPADAS("Espadas", Cor.PRETA),
     OUROS("Ouros", Cor.VERMELHA);
 
@@ -23,11 +23,11 @@ public enum NaipeEnum {
     }
 
     @Override
-    public String toString(){ //é um metodo que o retorno do tipo dele é uma String
+    public String toString() { //é um metodo que o retorno do tipo dele é uma String
         return nome;
     }
 
-    public enum Cor{ //Classe auxiliar para classe enum, fornecendo as cores
+    public enum Cor { //Classe auxiliar para classe enum, fornecendo as cores
         VERMELHA,
         PRETA;
     }
