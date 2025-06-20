@@ -2,26 +2,18 @@ package main.java.com.paciencia.game;
 
 import main.java.com.paciencia.model.Carta;
 import main.java.com.paciencia.model.NaipeEnum;
-import main.java.com.paciencia.model.NaipeEnum.Cor;
 import main.java.com.paciencia.structures.Fila;
 import main.java.com.paciencia.structures.LinkedList;
-import main.java.com.paciencia.structures.No;
 import main.java.com.paciencia.structures.Pilha;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-// Importa a classe RegrasJogo que contém a lógica de validação
-import main.java.com.paciencia.game.RegrasJogo;
 
-/**
- * Classe principal que gerencia a lógica do jogo de Paciência.
- * Orquestra a distribuição de cartas, movimentações e o estado do tabuleiro.
- */
 public class JogoPaciencia {
     private Baralho baralho;
     private Fila filaDeCompra;
-    private Pilha pilhaDescarteCompra;
+    private Pilha DescarteCompra;
     private LinkedList[] colunas;
     private Pilha[] pilhasFinais;
     private Scanner scanner;
@@ -32,7 +24,7 @@ public class JogoPaciencia {
     public JogoPaciencia() {
         this.baralho = new Baralho();
         this.filaDeCompra = new Fila();
-        this.pilhaDescarteCompra = new Pilha();
+        this.DescarteCompra = new Pilha();
         this.colunas = new LinkedList[NUM_COLUNAS];
         for (int i = 0; i < NUM_COLUNAS; i++) {
             this.colunas[i] = new LinkedList();
@@ -45,10 +37,10 @@ public class JogoPaciencia {
     }
 
     public void iniciarNovoJogo() {
-        System.out.println("--- INICIANDO NOVO JOGO DE PACIÊNCIA ---");
+        System.out.println("--- NOVO JOGO DE PACIÊNCIA ---");
         this.baralho = new Baralho();
         this.filaDeCompra = new Fila();
-        this.pilhaDescarteCompra = new Pilha();
+        this.DescarteCompra = new Pilha();
 
         for (int i = 0; i < NUM_COLUNAS; i++) {
             this.colunas[i] = new LinkedList();
@@ -57,7 +49,7 @@ public class JogoPaciencia {
             this.pilhasFinais[i] = new Pilha();
         }
 
-        System.out.println("Distribuindo cartas para as colunas...");
+        System.out.println("Colocando as cartas nas colunas...");
         for (int i = 0; i < NUM_COLUNAS; i++) {
             for (int j = 0; j <= i; j++) {
                 Carta carta = baralho.puxarCarta();
@@ -81,7 +73,7 @@ public class JogoPaciencia {
     }
 
     public void exibirEstadoDoJogo() {
-        System.out.println("\n--- ESTADO ATUAL DO JOGO ---");
+        System.out.println("\n--- ESTADO DO JOGO ---");
 
         System.out.print("Pilhas Finais: ");
         NaipeEnum[] naipesBase = {NaipeEnum.COPAS, NaipeEnum.OUROS, NaipeEnum.ESPADAS, NaipeEnum.PAUS};
@@ -91,7 +83,7 @@ public class JogoPaciencia {
         System.out.println();
 
         System.out.print("Monte de Compra: " + (filaDeCompra.estaVazia() ? "[Vazio]" : "[###]"));
-        System.out.println("   Descarte (Topo): " + (pilhaDescarteCompra.estaVazia() ? "[Vazio]" : pilhaDescarteCompra.peek().toString()));
+        System.out.println("   Descarte (Topo): " + (DescarteCompra.estaVazia() ? "[Vazio]" : DescarteCompra.peek().toString()));
 
 
         System.out.println("\nColunas da Mesa:");
@@ -245,22 +237,22 @@ public class JogoPaciencia {
 
 
     private void moverDescarteParaPilhaFinal() {
-        if (pilhaDescarteCompra.estaVazia()) {
-            System.out.println("A pilha de descarte está vazia. Não há cartas para mover.");
+        if (DescarteCompra.estaVazia()) {
+            System.out.println("Ops, parece que a pilha de descarte está sem cartas. Não há cartas para mover.");
             return;
         }
 
-        Carta cartaOrigem = pilhaDescarteCompra.peek();
+        Carta cartaOrigem = DescarteCompra.peek();
         System.out.println("Carta no descarte: " + cartaOrigem);
 
         int destPilhaIndex = obterIndicePilhaFinal("Para qual pilha final deseja mover?");
         Pilha pilhaDestino = pilhasFinais[destPilhaIndex];
 
-        // Chamada ao método de validação da classe RegrasJogo
-        boolean movimentoValido = RegrasJogo.isMovimentoParaPilhaFinalValido(cartaOrigem, pilhaDestino);
+
+        boolean movimentoValido = RegrasJogo.isMovimentoParaPilhaFinalValido(cartaOrigem, pilhaDestino);// Chamada ao metodo de validação da classe RegrasJogo
 
         if (movimentoValido) {
-            pilhaDescarteCompra.pop();
+            DescarteCompra.remover();
             pilhaDestino.push(cartaOrigem);
             System.out.println("Carta movida para a pilha final " + (destPilhaIndex + 1) + " com sucesso!");
         } else {
@@ -270,22 +262,22 @@ public class JogoPaciencia {
     }
 
     private void moverDescarteParaColuna() {
-        if (pilhaDescarteCompra.estaVazia()) {
+        if (DescarteCompra.estaVazia()) {
             System.out.println("A pilha de descarte está vazia. Não há cartas para mover.");
             return;
         }
 
-        Carta cartaOrigem = pilhaDescarteCompra.peek();
+        Carta cartaOrigem = DescarteCompra.peek();
         System.out.println("Carta no descarte: " + cartaOrigem);
 
         int destColunaIndex = obterIndiceColuna("Para qual coluna da mesa deseja mover?");
         LinkedList colunaDestino = colunas[destColunaIndex];
 
-        // Chamada ao método de validação da classe RegrasJogo
-        boolean movimentoValido = RegrasJogo.isMovimentoParaColunaValido(cartaOrigem, colunaDestino);
+
+        boolean movimentoValido = RegrasJogo.isMovimentoParaColunaValido(cartaOrigem, colunaDestino);//metodo de validação da classe RegrasJogo
 
         if (movimentoValido) {
-            pilhaDescarteCompra.pop();
+            DescarteCompra.remover();
             colunaDestino.add(cartaOrigem);
             System.out.println("Carta movida para a coluna " + (destColunaIndex + 1) + " com sucesso!");
         } else {
@@ -313,14 +305,13 @@ public class JogoPaciencia {
         int destPilhaIndex = obterIndicePilhaFinal("Para qual pilha final deseja mover?");
         Pilha pilhaDestino = pilhasFinais[destPilhaIndex];
 
-        // Chamada ao método de validação da classe RegrasJogo
         boolean movimentoValido = RegrasJogo.isMovimentoParaPilhaFinalValido(cartaOrigem, pilhaDestino);
 
         if (movimentoValido) {
             colunaOrigem.removeLast();
 
-            // Chamada ao método de validação da classe RegrasJogo para virar carta
-            if (RegrasJogo.podeVirarCartaNaColuna(colunaOrigem)) {
+
+            if (RegrasJogo.podeVirarCartaNaColuna(colunaOrigem)) { // Chamada ao metodo de validação da classe RegrasJogo para virar carta
                 Carta novaUltima = colunaOrigem.get(colunaOrigem.getTamanho() - 1);
                 novaUltima.setCartaVirada(true);
                 System.out.println("Carta virada para cima na coluna " + (origemColunaIndex + 1) + ": " + novaUltima);
@@ -371,8 +362,7 @@ public class JogoPaciencia {
         int destColunaIndex = obterIndiceColuna("Para qual coluna da mesa deseja mover?");
         LinkedList colunaDestino = colunas[destColunaIndex];
 
-        // Chamada ao método de validação da classe RegrasJogo
-        boolean movimentoValido = RegrasJogo.isMovimentoParaColunaValido(cartaInicialSequencia, colunaDestino);
+        boolean movimentoValido = RegrasJogo.isMovimentoParaColunaValido(cartaInicialSequencia, colunaDestino); //Verifica as ações realizadas
 
         if (movimentoValido) {
             LinkedList tempSeqList = new LinkedList();
@@ -386,7 +376,6 @@ public class JogoPaciencia {
                 colunaDestino.add(tempSeqList.get(i));
             }
 
-            // Chamada ao método de validação da classe RegrasJogo para virar carta
             if (RegrasJogo.podeVirarCartaNaColuna(colunaOrigem)) {
                 Carta novaUltima = colunaOrigem.get(colunaOrigem.getTamanho() - 1);
                 novaUltima.setCartaVirada(true);
@@ -404,19 +393,19 @@ public class JogoPaciencia {
         if (!filaDeCompra.estaVazia()) {
             Carta cartaComprada = filaDeCompra.desenfileirar();
             cartaComprada.setCartaVirada(true);
-            pilhaDescarteCompra.push(cartaComprada);
+            DescarteCompra.push(cartaComprada);
             System.out.println("Você comprou a carta: " + cartaComprada);
-        } else if (!pilhaDescarteCompra.estaVazia()) {
+        } else if (!DescarteCompra.estaVazia()) {
             System.out.println("Fila de compra vazia. Retornando cartas do descarte para a fila.");
-            while (!pilhaDescarteCompra.estaVazia()) {
-                Carta carta = pilhaDescarteCompra.pop();
+            while (!DescarteCompra.estaVazia()) {
+                Carta carta = DescarteCompra.remover();
                 carta.setCartaVirada(false);
                 filaDeCompra.enfileirar(carta);
             }
             if (!filaDeCompra.estaVazia()) {
                 Carta cartaComprada = filaDeCompra.desenfileirar();
                 cartaComprada.setCartaVirada(true);
-                pilhaDescarteCompra.push(cartaComprada);
+                DescarteCompra.push(cartaComprada);
                 System.out.println("Você comprou a carta: " + cartaComprada);
             } else {
                 System.out.println("Não há mais cartas para comprar no monte.");

@@ -1,0 +1,9 @@
+Estamos usando o Fisher yates para podermos embaralhar as cartas
+e determina continuamente o próximo elemento na sequência embaralhada, selecionando
+aleatoriamente um elemento da lista até que não haja mais nenhum elemento.
+A ideia geral é a seguinte:
+
+Comece com o último elemento da sua coleção.
+Gere um índice aleatório entre 0 (primeiro elemento) e o índice atual (incluindo o índice atual).
+Troque o elemento no índice atual com o elemento no índice aleatório gerado.
+Mova-se para o elemento anterior e repita os passos 2 e 3, diminuindo o intervalo para o índice aleatório (até 0).

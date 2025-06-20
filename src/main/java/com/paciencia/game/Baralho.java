@@ -6,125 +6,74 @@ import main.java.com.paciencia.structures.Pilha; // Usaremos uma Pilha para arma
 
 import java.util.Random; // Usaremos Random para o embaralhamento
 
-/**
- * Representa um baralho de 52 cartas e é responsável por criá-las e embaralhá-las.
- * As cartas do baralho serão armazenadas em uma Pilha para facilitar a distribuição (pegar do topo).
- */
 public class Baralho {
-    private Pilha cartas; // Usamos uma Pilha para o baralho, onde as cartas são retiradas do topo
-    private final Random random; // Para o embaralhamento
+    private Pilha cartas;
+    private final Random embaralhar; // O Random é usado para que possa ser gerado um valor aleatório, sendo usado para embaralhar as cartas
 
-    /**
-     * Construtor do Baralho.
-     * Inicializa o baralho com 52 cartas e o embaralha.
-     */
     public Baralho() {
         this.cartas = new Pilha();
-        this.random = new Random();
+        this.embaralhar = new Random();
         criarBaralho();
         embaralhar();
     }
 
-    /**
-     * Cria as 52 cartas únicas e as adiciona à pilha temporariamente.
-     */
-    private void criarBaralho() {
-        // Criar uma pilha temporária para facilitar a criação antes de embaralhar
-        Pilha tempPilha = new Pilha();
+    private void criarBaralho() { //Usado para criar todas as cartas do baralho
+        Pilha tempPilha = new Pilha();// Está criando uma pilha temporária para facilitar a criação antes de embaralhar
 
-        for (NaipeEnum naipe : NaipeEnum.values()) { // Percorre todos os naipes (COPAS, OUROS, ESPADAS, PAUS)
+        for (NaipeEnum naipe : NaipeEnum.values()) { // for para percorrer as cartas
+
             for (int numero = 1; numero <= 13; numero++) { // Percorre os números de 1 (Ás) a 13 (Rei)
-                Carta novaCarta = new Carta(numero, naipe, false); // Cartas do baralho inicialmente viradas para baixo
-                tempPilha.push(novaCarta); // Adiciona a carta na pilha temporária
+                Carta novaCarta = new Carta(numero, naipe, false); // Aqui está sendo implementado uma condição para as cartas que estão viradas.
+                tempPilha.push(novaCarta);
             }
         }
-
-        // Transferir as cartas da pilha temporária para o baralho principal de forma desordenada para auxiliar o embaralhamento
-        // (Este passo é mais para garantir que a pilha principal comece cheia, o embaralhamento real virá a seguir)
-        // O ideal é que o embaralhamento misture a ordem.
-        // Para o embaralhamento, vamos extrair todas as cartas para um array temporário e depois recolocá-las.
-        // Isso é mais fácil de embaralhar sem ArrayList.
-
-        // Resetar a pilha principal e preparar para o embaralhamento
         this.cartas = new Pilha(); // Garante que a pilha esteja vazia antes de preencher com embaralhamento
 
-        // Precisamos de um array simples para o embaralhamento Fisher-Yates
-        // Como não podemos usar ArrayList, vamos criar um array de tamanho fixo 52
         Carta[] arrayCartas = new Carta[52];
-        int index = 0;
+        int inicio = 0;
 
-        // Move as cartas da pilha temporária para o array
-        while(!tempPilha.estaVazia()){
-            arrayCartas[index++] = tempPilha.pop();
+        while (!tempPilha.estaVazia()) {// Move as cartas da pilha temporária para o array
+            arrayCartas[inicio++] = tempPilha.remover();
         }
 
-        // Preenche a pilha principal com as cartas do array
-        for(int i = 0; i < arrayCartas.length; i++){
+        for (int i = 0; i < arrayCartas.length; i++) {// Preenche a pilha principal com as cartas do array
             this.cartas.push(arrayCartas[i]);
         }
 
-        // Note: A ordem inicial no 'cartas' não importa muito, pois será embaralhada.
-        // O importante é que todas as 52 cartas estejam presentes.
     }
 
-    /**
-     * Embaralha as cartas do baralho usando o algoritmo Fisher-Yates (Knuth shuffle).
-     * Este algoritmo é eficiente e garante um embaralhamento uniforme.
-     */
     public void embaralhar() {
         if (cartas.getTamanho() == 0) {
-            // Se o baralho estiver vazio, recriar antes de embaralhar
-            criarBaralho(); // Garante que temos as 52 cartas
+            criarBaralho();
         }
-
-        // Para embaralhar sem ArrayList, precisamos de um array temporário
-        Carta[] tempArray = new Carta[cartas.getTamanho()];
+        Carta[] tempArray = new Carta[cartas.getTamanho()]; // Para embaralhar sem ArrayList, precisa de um array temporário, sendo mais eficiente
         int currentSize = cartas.getTamanho();
 
-        // 1. Mover todas as cartas da Pilha para o Array Temporário
-        for (int i = 0; i < currentSize; i++) {
-            tempArray[i] = cartas.pop();
+        for (int i = 0; i < currentSize; i++) { //Aqui move as cartas para o array temporário
+            tempArray[i] = cartas.remover();
         }
 
-        // 2. Embaralhar o Array Temporário (Algoritmo Fisher-Yates)
-        // Percorre o array de trás para frente
         for (int i = currentSize - 1; i > 0; i--) {
-            int j = random.nextInt(i + 1); // Gera um índice aleatório entre 0 e i (inclusive)
-
-            // Troca tempArray[i] com tempArray[j]
+            int j = embaralhar.nextInt(i + 1); // Gera um índice aleatório entre 0 e i (inclusive)
             Carta temp = tempArray[i];
             tempArray[i] = tempArray[j];
             tempArray[j] = temp;
         }
 
-        // 3. Mover as cartas embaralhadas do Array Temporário de volta para a Pilha
-        // Adicionamos de volta na Pilha, mantendo a ordem embaralhada
         for (int i = 0; i < currentSize; i++) {
             cartas.push(tempArray[i]);
         }
         System.out.println("Baralho embaralhado!");
     }
 
-    /**
-     * Retira uma carta do topo do baralho.
-     * @return A Carta do topo do baralho, ou null se o baralho estiver vazio.
-     */
     public Carta puxarCarta() {
-        return cartas.pop();
+        return cartas.remover();
     }
 
-    /**
-     * Verifica se o baralho está vazio.
-     * @return true se o baralho não tem cartas, false caso contrário.
-     */
     public boolean estaVazio() {
         return cartas.estaVazia();
     }
 
-    /**
-     * Retorna o número de cartas restantes no baralho.
-     * @return O tamanho atual do baralho.
-     */
     public int getTamanho() {
         return cartas.getTamanho();
     }

@@ -1,39 +1,23 @@
 package main.java.com.paciencia.structures;
 
-import main.java.com.paciencia.model.Carta; // Importa a classe Carta
+import main.java.com.paciencia.model.Carta;
 
-/**
- * Implementação de uma Pilha (Stack) usando nossa classe No personalizada.
- * Segue o princípio LIFO (Last In, First Out).
- */
 public class Pilha {
     private No topo; // O topo da pilha
     private int tamanho; // O número de elementos na pilha
 
-    /**
-     * Construtor para criar uma Pilha vazia.
-     */
     public Pilha() {
         this.topo = null; // Pilha vazia, o topo aponta para null
         this.tamanho = 0;
     }
 
-    /**
-     * Adiciona uma Carta ao topo da pilha (operação push).
-     * @param carta A Carta a ser adicionada.
-     */
     public void push(Carta carta) {
         No novoNo = new No(carta); // Cria um novo nó com a carta
         novoNo.setNext(topo);     // O novo nó aponta para o antigo topo
         topo = novoNo;            // O novo nó se torna o novo topo
         tamanho++;
     }
-
-    /**
-     * Remove e retorna a Carta do topo da pilha (operação pop).
-     * @return A Carta do topo da pilha, ou null se a pilha estiver vazia.
-     */
-    public Carta pop() {
+    public Carta remover() {
         if (estaVazia()) {
             return null; // Não há elementos para remover
         }

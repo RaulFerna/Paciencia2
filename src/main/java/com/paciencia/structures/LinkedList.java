@@ -17,27 +17,15 @@ public class LinkedList {
         this.tamanho = 0;
     }
 
-    /**
-     * Verifica se a lista está vazia.
-     * @return true se a lista não contém elementos, false caso contrário.
-     */
-    public boolean estaVazia() { // ESTE DEVE SER PUBLIC
-        return tamanho == 0; // Ou head == null;
+    public boolean estaVazia() {
+        return tamanho == 0;
     }
 
-    /**
-     * Retorna o número de elementos na lista.
-     * @return O número de elementos na lista.
-     */
-    public int getTamanho() { // ESTE DEVE SER PUBLIC
+    public int getTamanho() {
         return tamanho;
     }
 
-    /**
-     * Adiciona uma Carta ao final da lista.
-     * @param carta A carta a ser adicionada.
-     */
-    public void add(Carta carta) { // ESTE DEVE SER PUBLIC
+    public void add(Carta carta) {
         if (carta == null) {
             throw new IllegalArgumentException("Não é possível adicionar uma carta nula à lista.");
         }
@@ -54,11 +42,7 @@ public class LinkedList {
         tamanho++;
     }
 
-    /**
-     * Remove o último elemento da lista.
-     * @return A carta removida, ou null se a lista estiver vazia.
-     */
-    public Carta removeLast() { // ESTE DEVE SER PUBLIC
+    public Carta removeLast() {
         if (estaVazia()) {
             return null;
         }
@@ -79,16 +63,11 @@ public class LinkedList {
         return cartaRemovida;
     }
 
-    /**
-     * Remove o elemento no índice especificado.
-     * @param index O índice do elemento a ser removido.
-     * @return A carta removida, ou null se o índice for inválido.
-     */
-    public Carta remove(int index) { // ESTE DEVE SER PUBLIC
-        if (index < 0 || index >= tamanho) {
+    public Carta remove(int inicio) {
+        if (inicio < 0 || inicio >= tamanho) {
             return null;
         }
-        if (index == 0) {
+        if (inicio == 0) {
             Carta cartaRemovida = head.getInformacoes();
             head = head.getNext();
             tamanho--;
@@ -96,7 +75,7 @@ public class LinkedList {
         }
 
         No atual = head;
-        for (int i = 0; i < index - 1; i++) {
+        for (int i = 0; i < inicio - 1; i++) {
             atual = atual.getNext();
         }
         Carta cartaRemovida = atual.getNext().getInformacoes();
@@ -105,28 +84,17 @@ public class LinkedList {
         return cartaRemovida;
     }
 
-    /**
-     * Retorna a carta no índice especificado.
-     * @param index O índice da carta a ser retornada.
-     * @return A carta no índice, ou null se o índice for inválido.
-     */
-    public Carta get(int index) { // ESTE DEVE SER PUBLIC
-        if (index < 0 || index >= tamanho) {
+    public Carta get(int inicio) {
+        if (inicio < 0 || inicio >= tamanho) {
             return null;
         }
         No atual = head;
-        for (int i = 0; i < index; i++) {
+        for (int i = 0; i < inicio; i++) {
             atual = atual.getNext();
         }
         return atual.getInformacoes();
     }
 
-    /**
-     * Retorna o Nó no índice especificado.
-     * Útil para operações internas ou depuração, se necessário.
-     * @param index O índice do Nó a ser retornado.
-     * @return O Nó no índice, ou null se o índice for inválido.
-     */
     public No getNo(int index) { // ESTE DEVE SER PUBLIC
         if (index < 0 || index >= tamanho) {
             return null;
@@ -138,9 +106,6 @@ public class LinkedList {
         return atual;
     }
 
-    /**
-     * Retorna uma representação em String da lista.
-     */
     @Override
     public String toString() {
         if (head == null) {
