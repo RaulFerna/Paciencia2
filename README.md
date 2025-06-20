@@ -52,24 +52,14 @@ Para compilar e executar o projeto, siga os passos abaixo:
 
 1.  **Clone o repositório** (se estiver usando Git):
     ```bash
-    git clone [https://github.com/seu-usuario/Paciencia.git](https://github.com/seu-usuario/Paciencia.git)
+    git clone(https://github.com/RaulFerna/Paciencia2.git)
     cd Paciencia
     ```
-    *(Ajuste `https://github.com/seu-usuario/Paciencia.git` para o URL do seu repositório)*
 
-2.  **Compile os arquivos Java:**
-    Navegue até a pasta `Paciencia/src/main/java/` no seu terminal e compile os arquivos. Se estiver no diretório raiz do projeto (`Paciencia/`), você pode usar:
-    ```bash
-    javac -d bin src/main/java/com/seuprojeto/paciencia/*.java src/main/java/com/seuprojeto/paciencia/model/*.java src/main/java/com/seuprojeto/paciencia/structures/*.java src/main/java/com/seuprojeto/paciencia/game/*.java src/main/java/com/seuprojeto/paciencia/ui/*.java
-    ```
-    *(Substitua `com/seuprojeto/paciencia` pelo seu pacote real)*
-
-    *O comando acima compilará todos os `.java` de suas pastas e colocará os `.class` na pasta `bin/` (que você pode criar antes se preferir, ou usar outro nome).*
-
-3.  **Execute a aplicação:**
+2.  **Execute a aplicação:**
     Após a compilação, você pode executar o jogo a partir da pasta `Paciencia/` usando:
     ```bash
-    java -cp bin com.seuprojeto.paciencia.Main
+    java -cp bin src.main.java.com.paciencia.game.Main.java
     ```
     *(Ajuste `com.seuprojeto.paciencia.Main` para o nome completo da sua classe `Main` com o pacote)*
 
