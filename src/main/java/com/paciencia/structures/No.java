@@ -11,7 +11,7 @@ public class No {
             throw new IllegalArgumentException("As informações da carta estão vazios");
         }
         this.informacoes = informacoes;
-        this.next = next;
+        this.next = null;
     }
 
     public Carta getInformacoes() {
