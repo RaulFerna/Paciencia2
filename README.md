@@ -53,7 +53,7 @@ Para compilar e executar o projeto, siga os passos abaixo:
 1.  **Clone o repositório** (se estiver usando Git):
     ```bash
     git clone(https://github.com/RaulFerna/Paciencia2.git)
-    cd Paciencia
+    cd Paciencia2
     ```
 
 2.  **Execute a aplicação:**
@@ -61,7 +61,7 @@ Para compilar e executar o projeto, siga os passos abaixo:
     ```bash
     java -cp bin src.main.java.com.paciencia.game.Main.java
     ```
-    *(Ajuste `com.seuprojeto.paciencia.Main` para o nome completo da sua classe `Main` com o pacote)*
+    
 
 ## 🤝 Contribuição
 
